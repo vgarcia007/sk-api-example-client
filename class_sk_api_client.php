@@ -94,6 +94,26 @@ class SK_API
         return $this->get($this->base_url . 'get-post/' . $id);
     }
 
+    public function get_pages()
+    {
+        return $this->get($this->base_url . 'get-pages');
+    }
+
+    public function get_page($page_number)
+    {
+        return $this->get($this->base_url . 'get-page/' . $page_number);
+    }
+
+    public function get_search_results($search_term)
+    {
+        return $this->get($this->base_url . 'get-search-results/' . $search_term);
+    }
+    
+    public function get_posts_by_tag($tag)
+    {
+        return $this->get($this->base_url . 'get-search-results/' . urlencode($tag));
+    }
+
     public function get_image($file_unique_id)
     {
         return $this->get($this->base_url . 'get-image/' . $file_unique_id);
