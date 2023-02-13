@@ -108,10 +108,15 @@ class SK_API
     {
         return $this->get($this->base_url . 'get-search-results/' . $search_term);
     }
+
+    public function get_tag_list()
+    {
+        return $this->get($this->base_url . 'get-tag-list');
+    }
     
     public function get_posts_by_tag($tag)
     {
-        return $this->get($this->base_url . 'get-search-results/' . urlencode($tag));
+        return $this->get($this->base_url . 'get-posts-with-tag/' . urlencode($tag));
     }
 
     public function get_image($file_unique_id)
