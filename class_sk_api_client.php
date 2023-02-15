@@ -195,7 +195,7 @@ class SK_API
      */
     public function get_search_results($search_term)
     {
-        return $this->get($this->base_url . 'get-search-results/' . $search_term);
+        return $this->get($this->base_url . 'get-search-results/' .  urlencode($search_term));
     }
 	
     /**
