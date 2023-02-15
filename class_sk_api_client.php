@@ -1,16 +1,55 @@
 <?php
-
+/**
+ * A class for interacting with the SK-API to retrieve posts, pages, search results, and images.
+ */
 class SK_API
 {
 
+    /**
+     * The base URL of the SK-API.
+     * @var string
+     */
     private $base_url;
+
+    /**
+     * The absolute path to the cache directory. Must be writable.
+     * @var string
+     */
     private $cache_dir;
+
+    /**
+     * The standard cache time in seconds.
+     * @var int
+     */
     private $cache_time;
+
+    /**
+     * The cache time for images in seconds.
+     * @var int
+     */
     private $image_cache_time;
+
+    /**
+     * The cache time for profile images in seconds.
+     * @var int
+     */
     private $profile_image_cache_time;
+
+    /**
+     * The API key used for accessing the SK-API.
+     * @var string
+     */
     private $api_key;
+
+    /**
+     * A boolean flag indicating whether or not to use SSL.
+     * @var bool
+     */
     private $ssl;
 
+	/**
+     * Initializes a new instance of the SK_API class.
+     */
     public function __construct()
     {
 
@@ -23,14 +62,24 @@ class SK_API
         $this->ssl = true; // USE SSL?
     }
 
-
+	/**
+     * Generates a cache path for the given URL using its MD5 hash.
+     *
+     * @param string $url The URL to generate the cache path for.
+     * @return string The cache path for the given URL.
+     */
     private function generate_cache_path($url)
     {
         $url_hash = hash('md5', $url);
         return  $this->cache_dir . '/' . $url_hash;
     }
 
-
+    /**
+     * Checks whether or not the cache for the given URL is up-to-date based on its cache time.
+     *
+     * @param string $url The URL to check the cache for.
+     * @return bool Whether or not the cache for the given URL is up-to-date.
+     */
     private function is_cache_up2date($url)
     {
 
@@ -52,12 +101,24 @@ class SK_API
         return false;
     }
 
+    /**
+     * Writes the given content to a file at the cache path for the given URL.
+     *
+     * @param string $url The URL to write the cache for.
+     * @param string $content The content to write to the cache.
+     */
     private function write_cache($url, $content)
     {
         $file = $this->generate_cache_path($url);
         file_put_contents($file, $content);
     }
 
+    /**
+     * Sends a GET request to the given URL with the Authorization header set to the API key.
+     *
+     * @param string $url The URL to send the request to.
+     * @return string The response content.
+     */
     private function get($url)
     {
 
@@ -84,41 +145,86 @@ class SK_API
         return $response;
     }
 
+    /**
+     * Retrieves a list of all posts from the SK-API.
+     *
+     * @return string The response content.
+     */
     public function get_posts()
     {
         return $this->get($this->base_url . 'get-posts');
     }
 
+    /**
+     * Retrieves a single post from the SK-API with the given ID.
+     *
+     * @param int $id The ID of the post to retrieve.
+     * @return string The response content.
+     */
     public function get_post($id)
     {
         return $this->get($this->base_url . 'get-post/' . $id);
     }
 
+    /**
+     * Gets the number of all pages from the SK API.
+     *
+     * @return string The response content.
+     */
     public function get_pages()
     {
         return $this->get($this->base_url . 'get-pages');
     }
 
+    /**
+     * Retrieves a single page from the SK-API with the given page number.
+     *
+     * @param int $page_number The page number of the page to retrieve.
+     * @return string The response content.
+     */
     public function get_page($page_number)
     {
         return $this->get($this->base_url . 'get-page/' . $page_number);
     }
 
+    /**
+     * Retrieves a list of search results (posts) from the SK-API for the given search term.
+     *
+     * @param string $search_term The search term to retrieve results for.
+     * @return string The response content.
+     */
     public function get_search_results($search_term)
     {
         return $this->get($this->base_url . 'get-search-results/' . $search_term);
     }
-
+	
+    /**
+     * Retrieves a list of tags from the SK-API.
+     *
+     * @return string The response content.
+     */
     public function get_tag_list()
     {
         return $this->get($this->base_url . 'get-tag-list');
     }
-    
+	
+     /**
+     * Retrieves a list of results (posts) from the SK-API for the given tag term.
+     *
+     * @param string $tag The search tag to retrieve results for.
+     * @return string The response content.
+     */   
     public function get_posts_by_tag($tag)
     {
         return $this->get($this->base_url . 'get-posts-with-tag/' . urlencode($tag));
     }
-
+	
+     /**
+     * Retrieves a image file from the SK-API for the given tag term.
+     *
+     * @param string $file_unique_id The filename of the image.
+     * @return binary The response image.
+     */ 
     public function get_image($file_unique_id)
     {
         return $this->get($this->base_url . 'get-image/' . $file_unique_id);
