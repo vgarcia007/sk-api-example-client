@@ -247,7 +247,7 @@ class SK_API
      */ 
     public function get_sats_to_fiat($sats)
     {
-        return $this->get($this->base_url . 'sats_to_fiat/' . $sats);
+        return $this->get($this->base_url . 'sats-to-fiat/' . $sats);
     }
 
      /**
