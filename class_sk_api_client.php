@@ -47,7 +47,7 @@ class SK_API
      */
     private $ssl;
 
-	/**
+    /**
      * Initializes a new instance of the SK_API class.
      */
     public function __construct()
@@ -61,8 +61,8 @@ class SK_API
         $this->profile_image_cache_time = 86400; // CACHE TIME FOR PROFILE IMAGES IN SECONDS
         $this->ssl = true; // USE SSL?
     }
-
-	/**
+    
+    /**
      * Generates a cache path for the given URL using its MD5 hash.
      *
      * @param string $url The URL to generate the cache path for.
@@ -130,7 +130,8 @@ class SK_API
         $options = array(
             'http' => array(
                 'method'  => 'GET',
-                'header' => 'Authorization: Bearer ' . $this->api_key
+                'header' => 'Authorization: Bearer ' . $this->api_key,
+                'ignore_errors' => true 
             ),
             "ssl" => array(
                 "verify_peer" => $this->ssl,
@@ -139,10 +140,18 @@ class SK_API
         );
 
         $context  = stream_context_create($options);
-        if ($response = file_get_contents($url, false, $context)) {
+
+        $response = file_get_contents($url, false, $context);
+        
+
+        if ($http_response_header[0] == "HTTP/1.1 200 OK") {
             $this->write_cache($url, $response);
-        };
-        return $response;
+            return $response;
+        } else {
+            $file = $this->generate_cache_path($url);
+            return file_get_contents($file);
+        }
+
     }
 
     /**
@@ -228,5 +237,26 @@ class SK_API
     public function get_image($file_unique_id)
     {
         return $this->get($this->base_url . 'get-image/' . $file_unique_id);
+    }
+
+     /**
+     * Retrieves a current Satoshi Values for EUR.
+     *
+     * @param integer $sats The amount of sats to convert.
+     * @return string The response content.
+     */ 
+    public function get_sats_to_fiat($sats)
+    {
+        return $this->get($this->base_url . 'sats_to_fiat/' . $sats);
+    }
+
+     /**
+     * Retrieves a current BTC price in EUR.
+     *
+     * @return string The response content.
+     */ 
+    public function get_btc_in_eur()
+    {
+        return $this->get($this->base_url . 'btc-price/eur');
     }
 }
