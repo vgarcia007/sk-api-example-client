@@ -62,7 +62,7 @@ class SK_API
         $this->ssl = true; // USE SSL?
     }
     
-    /**
+	/**
      * Generates a cache path for the given URL using its MD5 hash.
      *
      * @param string $url The URL to generate the cache path for.
@@ -194,6 +194,47 @@ class SK_API
     public function get_page($page_number)
     {
         return $this->get($this->base_url . 'get-page/' . $page_number);
+    }
+
+    /**
+     * Gets the number of all pages from the SK API with posts containing the search string.
+     *
+     * @return string The response content.
+     */
+    public function get_page_search($page_number, $search_term)
+    {
+        return $this->get($this->base_url . 'get-pages-search/' . $page_number . '/' . urlencode($search_term));
+    }
+
+    /**
+     * Gets the number of all pages from the SK API with posts containing the tag string.
+     *
+     * @return string The response content.
+     */
+    public function get_pages_tag($tag)
+    {
+        return $this->get($this->base_url . 'get-pages-tag/' .  urlencode($tag));
+    }
+
+
+    /**
+     * Gets the number of all pages from the SK API with posts containing the tag string.
+     *
+     * @return string The response content.
+     */
+    public function get_page_tag($page_number, $tag)
+    {
+        return $this->get($this->base_url . 'get-pages-tag/' . $page_number . '/' . urlencode($tag));
+    }
+
+    /**
+     * Gets the number of all pages from the SK API with posts containing the search string.
+     *
+     * @return string The response content.
+     */
+    public function get_pages_search($search_term)
+    {
+        return $this->get($this->base_url . 'get-pages-search/' .  urlencode($search_term));
     }
 
     /**
