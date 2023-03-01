@@ -15,6 +15,19 @@ $posts =  $API->get_pages( );
 //page
 $posts =  $API->get_pages($page_number);
 
+//pages search
+$posts =  $API->get_pages_search($search_term);
+
+//page search
+$posts =  $API->get_page_search($page_number,$search_term);
+
+
+//pages tag
+$posts =  $API->get_pages_search($tag);
+
+//page tag
+$posts =  $API->get_page_search($page_number,$tag);
+
 //search
 $posts =  $API->get_search_results($search_term);
 
@@ -23,11 +36,4 @@ $posts =  $API->get_posts_by_tag($tag);
 
 //get a list of all used tags
 $tag_list =  $API->get_tag_list();
-
-//convert sats to eur and usd
-$sats_to_fiat =  $API->get_sats_to_fiat($sats);
-
-//get current btc price in eur
-$sats_to_fiat =  $API->get_btc_in_eur();
-
 ?>
