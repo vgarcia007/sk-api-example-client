@@ -257,6 +257,16 @@ class SK_API
     {
         return $this->get($this->base_url . 'get-tag-list');
     }
+    
+    /**
+     * Retrieves a list of tags from the SK-API.
+     *
+     * @return string The response content.
+     */
+    public function get_tag_list_numbered()
+    {
+        return $this->get($this->base_url . 'get-tag-list-numbered');
+    }
 	
      /**
      * Retrieves a list of results (posts) from the SK-API for the given tag term.
