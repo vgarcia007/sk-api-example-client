@@ -13,7 +13,7 @@ $posts =  $API->get_post($id);
 $posts =  $API->get_pages( );
 
 //page
-$posts =  $API->get_pages($page_number);
+$posts =  $API->get_page($page_number);
 
 //pages search
 $posts =  $API->get_pages_search($search_term);
@@ -36,4 +36,7 @@ $posts =  $API->get_posts_by_tag($tag);
 
 //get a list of all used tags
 $tag_list =  $API->get_tag_list();
+
+//get a list of all used tags with a number how often they are used
+$tag_list =  $API->get_tag_list_numbered()
 ?>
